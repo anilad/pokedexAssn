@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What's that Pokemon?!</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            for (var i = 1; i < 10; i++) {
+                var img = i + ".png";
+                $('.pokemon').append('<img id="https://pokeapi.co/api/v2/pokemon/' + i + '" src="images/' + img + '">')
+            } // closes for loop for adding pokemon to .pokemon
+
+            $('.pokemon').on("click", "img", function () {
+                // console.log($(this).attr('id'));
+                $.get($(this).attr("id"), function (res) {
+                    console.log(res);
+                    var dex="";
+                    dex+='<h1>'+res.name+'</h1>';
+                    dex+='<h3>Types:</h3>';
+                    dex+='<ul>';
+                    
+                    for(var i=0; i<res.types.length; i++){
+                        dex+= '<li>' +res.types[i].type.name+ '</li>';
+                    }
+                    dex+='</ul>';
+                    dex+='<h3>Height</h3>';
+                    dex+='<p>'+res.height+'</p>';
+                    dex+='<h3>Weight</h3>'
+                    dex+='<p>'+res.weight+'</p>';
+                    $('.pokedex').html(dex);
+                    
+                }, "json"); //closes .get
+            }); //closes ('.pokemon').on
+        }); //document.ready
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>What's that Pokemon?!</h1>
+        <div class="pokemon">
+
+        </div>
+        <div class="pokedex">
+
+        </div>
+    </div>
+</body>
+
+</html>
